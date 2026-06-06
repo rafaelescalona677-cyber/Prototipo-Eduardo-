@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de audiciones y registro académico para aspirantes a actores de doblaje e imitaciones">
+    <title>Prototipo: Sistema de Audiciones</title>
+    <style>
+        /* Paleta de Colores y Estilos Base Estilo Inglés */
+        :root {
+            --azul-oscuro: #1a2536;
+            --marron-ingles: #3d2314;
+            --morado-regal: #4a2840;
+            --dorado: #d4af37;
+            --dorado-brillante: #fff3a8;
+            --blanco-hueso: #f5f2eb;
+            --verde-exito: #1e461e;
+            --rojo-error: #5c2424;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco-hueso);
+            background-image: linear-gradient(135deg, var(--azul-oscuro) 25%, var(--marron-ingles) 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Encabezado / Header */
+        header {
+            width: 100%;
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(26, 37, 54, 0.95);
+            border-bottom: 3px double var(--dorado);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Estilos del Logo */
+        .header-logo {
+            max-height: 100px;
+            width: auto;
+            margin-bottom: 15px;
+            filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.6));
+            transition: transform 0.3s ease;
+        }
+
+        .header-logo:hover {
+            transform: scale(1.05);
+        }
+
+        header h1 {
+            color: var(--dorado);
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-style: italic;
+            color: var(--blanco-hueso);
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            header p {
+                font-size: 0.95rem;
+            }
+        }
+
+        /* Contenedor Principal */
+        .container {
+            width: 90%;
+            max-width: 650px;
+            background: rgba(74, 40, 64, 0.4);
+            border: 2px solid var(--dorado);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: var(--dorado);
+            border-bottom: 1px solid var(--dorado);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        /* Estilos del Formulario */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dorado-brillante);
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background-color: rgba(26, 37, 54, 0.9);
+            border: 1px solid var(--dorado);
+            color: var(--blanco-hueso);
+            border-radius: 4px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--dorado-brillante);
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+            background-color: rgba(26, 37, 54, 1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-error {
+            border-color: #ff6b6b !important;
+            box-shadow: 0 0 8px rgba(255, 107, 107, 0.5) !important;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* Botones */
+        .btn-submit {
+            width: 100%;
+            background-color: var(--marron-ingles);
+            color: var(--dorado);
+            border: 2px solid var(--dorado);
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-submit:hover {
+            background-color: var(--dorado);
+            color: var(--marron-ingles);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Mensajes de Estado */
+        .alert {
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert-success {
+            background: rgba(30, 70, 30, 0.9);
+            border: 1px solid #52c41a;
+            color: #f6ffed;
+        }
+
+        .alert-error {
+            background: rgba(92, 36, 36, 0.9);
+            border: 1px solid #ff6b6b;
+            color: #ffe0e0;
+        }
+
+        .alert-close {
+            float: right;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: inherit;
+        }
+
+        .alert-close:hover {
+            opacity: 0.7;
+        }
+
+        /* Separador */
+        .divider {
+            border: 0;
+            border-top: 1px double var(--dorado);
+            margin: 30px 0;
+        }
+
+        /* Sección de Redes Sociales */
+        .links-section {
+            margin-top: 35px;
+            text-align: center;
+        }
+
+        .links-section > p {
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            color: var(--dorado-brillante);
+        }
+
+        .links-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-link {
+            flex: 1;
+            min-width: 140px;
+            text-decoration: none;
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.2);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .social-link:active {
+            transform: translateY(-1px);
+        }
+
+        .whatsapp {
+            background-color: #128C7E;
+            border: 1px solid #075E54;
+        }
+
+        .discord {
+            background-color: #5865F2;
+            border: 1px solid #404eed;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: auto;
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.8rem;
+            color: rgba(245, 242, 235, 0.6);
+            border-top: 1px dashed rgba(212, 175, 55, 0.3);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 95%;
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.2rem;
+            }
+
+            .links-container {
+                flex-direction: column;
+            }
+
+            .social-link {
+                min-width: unset;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="IMG-20260606-WA0074.png" alt="Logo The Royal Audition Club" class="header-logo">
+        <h1>Aspirantes a actores de doblaje y Imitaciones</h1>
+        <p>Prototipo Oficial de Registro Académico e Institucional</p>
+    </header>
+
+    <main class="container">
+        <h2>Formulario de Inscripción Directa</h2>
+        
+        <div id="msgExito" class="alert alert-success">
+            <span class="alert-close" onclick="this.parentElement.classList.remove('show');">&times;</span>
+            ¡Inscripción procesada con éxito!
+        </div>
+
+        <div id="msgError" class="alert alert-error">
+            <span class="alert-close" onclick="this.parentElement.classList.remove('show');">&times;</span>
+            <span id="errorText">Por favor, completa todos los campos requeridos</span>
+        </div>
+
+        <form id="auditionForm" novalidate>
+            <div class="form-group">
+                <label for="nombre">Nombre Completo:</label>
+                <input type="text" id="nombre" name="nombre" required placeholder="Ej. Arthur Pendragon" maxlength="100">
+                <span class="error-message" id="error-nombre">Por favor, ingresa tu nombre completo</span>
+            </div>
+
+            <div class="form-group">
+                <label for="cedula">Documento de Identidad / Cédula:</label>
+                <input type="text" id="cedula" name="cedula" required placeholder="Ej. 25123456" maxlength="20">
+                <span class="error-message" id="error-cedula">Por favor, ingresa un documento válido</span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Correo Electrónico:</label>
+                <input type="email" id="email" name="email" placeholder="correo@ejemplo.com" maxlength="100">
+                <span class="error-message" id="error-email">Por favor, ingresa un correo válido</span>
+            </div>
+
+            <div class="form-group">
+                <label for="talento">Área o Categoría de Audición:</label>
+                <select id="talento" name="talento" required>
+                    <option value="" disabled selected>Selecciona una opción...</option>
+                    <option value="musica">Doblaje / Imitacion</option>
+                    <option value="teatro">Dibujo / Animacion</option>
+                    <option value="sistemas">Otros</option>
+                </select>
+                <span class="error-message" id="error-talento">Por favor, selecciona una categoría</span>
+            </div>
+
+            <div class="form-group">
+                <label for="descripcion">Breve reseña de experiencia (Opcional):</label>
+                <textarea id="descripcion" name="descripcion" placeholder="Cuéntanos un poco sobre tu trayectoria..." maxlength="500"></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Enviar Inscripción</button>
+        </form>
+
+        <hr class="divider">
+
+        <div class="links-section">
+            <h2>Canales de Comunicación Directa</h2>
+            <p>Accede directamente a nuestras comunidades sin necesidad de iniciar sesión en la plataforma:</p>
+            
+            <div class="links-container">
+                <a href="https://chat.whatsapp.com/TuCodigoDeGrupo" target="_blank" rel="noopener noreferrer" class="social-link whatsapp" title="Únete a nuestro grupo de WhatsApp">
+                    <span>WhatsApp</span>
+                </a>
+                <a href="https://discord.gg/TuCodigoDeInvitacion" target="_blank" rel="noopener noreferrer" class="social-link discord" title="Únete a nuestro servidor de Discord">
+                    <span>Discord</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 The Royal Audition Club. Todos los derechos reservados.</p>
+        <p>Sistema de gestión de audiciones y registro académico</p>
+    </footer>
+
+    <script>
+        // Validación y manejo del formulario
+        const form = document.getElementById('auditionForm');
+        const msgExito = document.getElementById('msgExito');
+        const msgError = document.getElementById('msgError');
+        const errorText = document.getElementById('errorText');
+
+        // Reglas de validación
+        const validationRules = {
+            nombre: {
+                validate: (value) => value.trim().length >= 3,
+                message: 'El nombre debe tener al menos 3 caracteres'
+            },
+            cedula: {
+                validate: (value) => /^[0-9]{5,20}$/.test(value.trim()),
+                message: 'La cédula debe contener solo números (5-20 dígitos)'
+            },
+            email: {
+                validate: (value) => !value || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim()),
+                message: 'Por favor, ingresa un correo válido'
+            },
+            talento: {
+                validate: (value) => value !== '',
+                message: 'Por favor, selecciona una categoría'
+            }
+        };
+
+        // Validación en tiempo real
+        Object.keys(validationRules).forEach(fieldName => {
+            const field = document.getElementById(fieldName);
+            if (field) {
+                field.addEventListener('blur', () => validateField(fieldName));
+                field.addEventListener('input', () => {
+                    if (field.classList.contains('form-error')) {
+                        validateField(fieldName);
+                    }
+                });
+            }
+        });
+
+        function validateField(fieldName) {
+            const field = document.getElementById(fieldName);
+            const errorMsg = document.getElementById(`error-${fieldName}`);
+            const rule = validationRules[fieldName];
+
+            if (!field || !rule) return true;
+
+            const value = field.value;
+            const isValid = rule.validate(value);
+
+            if (!isValid && (fieldName !== 'email' || value)) {
+                field.classList.add('form-error');
+                if (errorMsg) {
+                    errorMsg.textContent = rule.message;
+                    errorMsg.classList.add('show');
+                }
+                return false;
+            } else {
+                field.classList.remove('form-error');
+                if (errorMsg) {
+                    errorMsg.classList.remove('show');
+                }
+                return true;
+            }
+        }
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            msgExito.classList.remove('show');
+            msgError.classList.remove('show');
+
+            // Validar todos los campos
+            let isFormValid = true;
+            Object.keys(validationRules).forEach(fieldName => {
+                if (!validateField(fieldName)) {
+                    isFormValid = false;
+                }
+            });
+
+            if (!isFormValid) {
+                msgError.classList.add('show');
+                errorText.textContent = 'Por favor, completa todos los campos requeridos correctamente';
+                return;
+            }
+
+            // Recopilar datos del formulario
+            const formData = {
+                nombre: document.getElementById('nombre').value.trim(),
+                cedula: document.getElementById('cedula').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                talento: document.getElementById('talento').value,
+                descripcion: document.getElementById('descripcion').value.trim(),
+                timestamp: new Date().toISOString()
+            };
+
+            // Aquí puedes enviar los datos a un servidor
+            console.log('Datos del formulario:', formData);
+
+            // Mostrar mensaje de éxito
+            msgExito.classList.add('show');
+
+            // Resetear formulario
+            form.reset();
+
+            // Remover clases de error
+            document.querySelectorAll('.form-error').forEach(field => {
+                field.classList.remove('form-error');
+            });
+
+            // Auto-ocultar mensaje después de 5 segundos
+            setTimeout(() => {
+                msgExito.classList.remove('show');
+            }, 5000);
+        });
+
+        // Permitir cerrar alertas con Escape
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                msgExito.classList.remove('show');
+                msgError.classList.remove('show');
+            }
+        });
+    </script>
+
+</body>
+</html>
